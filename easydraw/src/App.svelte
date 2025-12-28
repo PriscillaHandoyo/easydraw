@@ -10,6 +10,8 @@
 
   let nodes = $state.raw([]);
 
+  // Handle array of nodes when the button is clicked
+  // Save the new nodes array to the nodes variable
   function addNode() {
     const id = `${nodes.length + 1}`;
 
@@ -26,6 +28,8 @@
 
   let edges = $state.raw([]);
 
+  // Handle array of edges when a new connection is made
+  // Save the new edges array to the edges variable
   function onConnect(params) {
     edges = addEdge(params, edges);
   }
