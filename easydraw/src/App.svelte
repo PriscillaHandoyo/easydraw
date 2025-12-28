@@ -14,10 +14,12 @@
       data: { label: "World" },
     },
   ]);
+
+  let edges = $state.raw([{ id: "e1-2", source: "1", target: "2" }]);
 </script>
 
 <div style="width: 100vw; height: 100vh;">
-  <SvelteFlow fitView bind:nodes>
+  <SvelteFlow fitView bind:nodes bind:edges>
     <Background />
     <Controls />
     <MiniMap />
