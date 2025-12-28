@@ -7,3 +7,8 @@ body {
 .svelte-flow {
   --xy-background-color: #f7f9fb;
 }
+
+/* change the cursor default (grab) to arraow */
+.svelte-flow__pane {
+  cursor: default !important;
+}
