@@ -20,8 +20,8 @@
       data: { label: `Node ${id}` },
     };
 
+    // Update nodes address everytime the button is clicked
     nodes = [...nodes, newNode];
-    $: console.log(nodes);
   }
 
   let edges = $state.raw([]);
