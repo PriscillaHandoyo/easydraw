@@ -7,6 +7,14 @@
     addEdge,
   } from "@xyflow/svelte";
   import "@xyflow/svelte/dist/style.css";
+  import TableNode from "./lib/components/TableNode.svelte";
+
+  // Const -> DONT CHANGE
+  // Define the types of nodes available in the flow
+  // Any other types should be added here
+  const nodeTypes = {
+    table: TableNode,
+  };
 
   let nodes = $state.raw([]);
 
@@ -17,7 +25,7 @@
 
     const newNode = {
       id,
-      type: "default",
+      type: "table",
       position: { x: Math.random() * 400, y: Math.random() * 400 },
       data: { label: `Node ${id}` },
     };
@@ -36,7 +44,7 @@
 </script>
 
 <div style="width: 100vw; height: 100vh;">
-  <SvelteFlow fitView {nodes} {edges} onconnect={onConnect}>
+  <SvelteFlow fitView {nodes} {edges} {nodeTypes} onconnect={onConnect}>
     <Background />
     <Controls />
     <MiniMap />
