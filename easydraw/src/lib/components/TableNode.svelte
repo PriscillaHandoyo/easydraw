@@ -4,7 +4,11 @@
 </script>
 
 <div class="table-node">
-  <div class="header">{data.label}</div>
+  <div class="header">
+    <!-- "nodrag" class is used to prevent dragging 
+     when highlighting/interacting with the input field -->
+    <input type="text" bind:value={data.label} class="nodrag" />
+  </div>
   <div class="content">
     <div class="row">ID (PK)</div>
     <div class="row">Created_At</div>
@@ -16,6 +20,15 @@
 </div>
 
 <style>
+  input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    outline: none;
+  }
   .table-node {
     background: white;
     border: 2px solid #222;
