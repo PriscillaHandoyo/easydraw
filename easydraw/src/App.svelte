@@ -32,6 +32,7 @@
         label: `Node ${id}`,
         // Callback function to update the label
         onUpdate: updateNodeLabel,
+        onDelete: deleteNode,
       },
     };
 
@@ -55,6 +56,14 @@
       n.id === id ? { ...n, data: { ...n.data, label: newLabel } } : n
     );
   }
+
+  // Delete a node based on its ID
+  // Use ".filter" to remove the node from the nodes array
+  // without having a hole in the array
+  function deleteNode(id) {
+    nodes = nodes.filter((n) => n.id !== id);
+  }
+
   // Debugging
   // Checking the double binding
   $inspect(nodes);

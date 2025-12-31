@@ -26,6 +26,9 @@
       }}
       class="nodrag"
     />
+    <button class="delete-btn nodrag" onclick={() => data.onDelete(id)}>
+      x
+    </button>
   </div>
   <div class="content">
     <div class="row">ID (PK)</div>
@@ -38,15 +41,6 @@
 </div>
 
 <style>
-  input {
-    background: transparent;
-    border: none;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    outline: none;
-  }
   .table-node {
     background: white;
     border: 2px solid #222;
@@ -61,8 +55,32 @@
     padding: 4px 8px;
     font-weight: bold;
     text-align: center;
+    display: flex;
   }
 
+  input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    outline: none;
+  }
+
+  .delete-btn {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0 5px;
+  }
+
+  .delete-btn:hover {
+    color: #ff0000;
+  }
   .row {
     padding: 4px 8px;
     border-top: 1px solif #eee;
