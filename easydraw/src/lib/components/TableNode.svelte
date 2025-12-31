@@ -1,13 +1,31 @@
 <script>
   import { Handle, Position } from "@xyflow/svelte";
-  export let data; // Take data from the node props
+
+  // Take data from the node props
+  let { id, data } = $props();
+
+  // Ensure instant update when data.label changes
+  // Reduce lagging between pressing a kwy and the text appearing
+  let localLabel = $state(data.label);
 </script>
 
 <div class="table-node">
   <div class="header">
     <!-- "nodrag" class is used to prevent dragging 
-     when highlighting/interacting with the input field -->
-    <input type="text" bind:value={data.label} class="nodrag" />
+     when highlighting/interacting with the input field 
+     "bind:value={localLabel}" is the "double binding" 
+     this will make sure when we changed the input, the data will also changed-->
+    <input
+      type="text"
+      bind:value={localLabel}
+      oninput={() => {
+        // Check if the function exists before calling it
+        if (data.onUpdate) {
+          data.onUpdate(id, localLabel);
+        }
+      }}
+      class="nodrag"
+    />
   </div>
   <div class="content">
     <div class="row">ID (PK)</div>

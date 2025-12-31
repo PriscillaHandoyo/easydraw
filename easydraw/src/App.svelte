@@ -28,7 +28,11 @@
       id,
       type: "table",
       position: { x: Math.random() * 400, y: Math.random() * 400 },
-      data: { label: `Node ${id}` },
+      data: {
+        label: `Node ${id}`,
+        // Callback function to update the label
+        onUpdate: updateNodeLabel,
+      },
     };
 
     // Update nodes address everytime the button is clicked
@@ -44,6 +48,13 @@
     edges = addEdge(params, edges);
   }
 
+  // Overwrite the node label
+  // Prevent ownership invalid mutation
+  function updateNodeLabel(id, newLabel) {
+    nodes = nodes.map((n) =>
+      n.id === id ? { ...n, data: { ...n.data, label: newLabel } } : n
+    );
+  }
   // Debugging
   // Checking the double binding
   $inspect(nodes);
