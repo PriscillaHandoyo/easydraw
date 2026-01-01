@@ -8,12 +8,14 @@
   } from "@xyflow/svelte";
   import "@xyflow/svelte/dist/style.css";
   import TableNode from "./lib/components/TableNode.svelte";
+  import AttributeNode from "./lib/components/AttributeNode.svelte";
 
   // Const -> DONT CHANGE
   // Define the types of nodes available in the flow
   // Any other types should be added here
   const nodeTypes = {
     table: TableNode,
+    attribute: AttributeNode,
   };
 
   // State -> Changeable
@@ -109,7 +111,15 @@
       draggable="true"
       ondragstart={(e) => onDragStart(e, "table")}
     >
-      Table Node
+      Table (Rectangle)
+    </div>
+
+    <div
+      class="dnd-node attribute"
+      draggable="true"
+      ondragstart={(e) => onDragStart(e, "attribute")}
+    >
+      Attribute (Oval)
     </div>
   </aside>
 
