@@ -24,6 +24,10 @@
     class="nodrag"
   />
 
+  <button class="delete-btn nodrag" onclick={() => data.onDelete(id)}>
+    x
+  </button>
+
   <Handle type="source" position={Position.Bottom} />
 </div>
 
@@ -47,5 +51,19 @@
     text-align: center;
     width: 100%;
     outline: none;
+  }
+
+  .delete-btn {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0 5px;
+  }
+
+  .delete-btn:hover {
+    color: #ff0000;
   }
 </style>
