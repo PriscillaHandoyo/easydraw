@@ -64,24 +64,109 @@
     nodes = nodes.filter((n) => n.id !== id);
   }
 
+  // Drag the node from the sidebar
+  // Set the dataTransfer with the node type and allow move effect
+  function onDragStart(event, nodeType) {
+    event.dataTransfer.setData("application/svelteflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  }
+
+  // Drop the node into the canvas
+  // Prevent default action and get the node type from dataTransfer
+  // Create a new node object and drop it into the nodes array
+  function onDrop(event) {
+    event.preventDefault();
+
+    const type = event.dataTransfer.getData("application/svelteflow");
+    if (!type) return;
+
+    const position = { x: event.clientX - 200, y: event.clientY };
+
+    const newNode = {
+      id: `${nodes.length + 1}`,
+      type,
+      position,
+      data: {
+        label: `New ${type}`,
+        onUpdate: updateNodeLabel,
+        onDelete: deleteNode,
+      },
+    };
+
+    nodes = [...nodes, newNode];
+  }
+
   // Debugging
   // Checking the double binding
   $inspect(nodes);
 </script>
 
-<div style="width: 100vw; height: 100vh;">
-  <SvelteFlow fitView {nodes} {edges} {nodeTypes} onconnect={onConnect}>
-    <Background />
-    <Controls />
-    <MiniMap />
-  </SvelteFlow>
+<div class="dnd-container">
+  <aside class="sidebar">
+    <div class="description">Drag these onto the canvas:</div>
+    <div
+      class="dnd-node table"
+      draggable="true"
+      ondragstart={(e) => onDragStart(e, "table")}
+    >
+      Table Node
+    </div>
+  </aside>
+
+  <div class="flow-wrapper" style="width: 100vw; height: 100vh;">
+    <SvelteFlow
+      fitView
+      {nodes}
+      {edges}
+      {nodeTypes}
+      onconnect={onConnect}
+      ondrop={onDrop}
+      ondragover={(e) => e.preventDefault()}
+    >
+      <Background />
+      <Controls />
+      <MiniMap />
+    </SvelteFlow>
+  </div>
 </div>
 
-<div
-  class="controls"
-  style="position: absolute; z-index: 10; top: 10px; left: 10px;"
->
-  <button onclick={addNode} style="padding: 10px; cursor: pointer;">
-    Add New Node
-  </button>
-</div>
+<style>
+  .dnd-container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .sidebar {
+    width: 200px;
+    border-right: 1px solid #eee;
+    padding: 15px 10px;
+    background: #fcfcfc;
+    font-family: sans-serif;
+  }
+
+  .description {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #666;
+  }
+
+  .dnd-node {
+    height: 40px;
+    padding: 4px;
+    border: 2px solid #222;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    background: white;
+    font-weight: bold;
+  }
+
+  .flow-wrapper {
+    flex-grow: 1;
+    height: 100%;
+  }
+</style>
