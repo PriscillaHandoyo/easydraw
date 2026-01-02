@@ -21,7 +21,7 @@
   };
 
   // State -> Changeable
-  let nodes = $state([]);
+  // let nodes = $state([]);
 
   // Handle array of nodes when the button is clicked
   // Save the new nodes array to the nodes variable
@@ -45,7 +45,7 @@
   }
 
   // State -> Changeable
-  let edges = $state([]);
+  //let edges = $state([]);
 
   // Handle array of edges when a new connection is made
   // Save the new edges array to the edges variable
@@ -99,6 +99,23 @@
 
     nodes = [...nodes, newNode];
   }
+
+  // Load the data from LocalStorage when the app starts
+  // localStorage -> Web API
+  const savedNodes = localStorage.getItem("easy-draw-nodes");
+  const savedEdges = localStorage.getItem("easy-draw-edges");
+
+  // Intialize state with saved data or an empty array if nothing exists
+  // If there's data, turns the string (JSON) back to real JavaScript array or object that can be use by Svelte Flow
+  let nodes = $state.raw(savedNodes ? JSON.parse(savedNodes) : []);
+  let edges = $state.raw(savedEdges ? JSON.parse(savedEdges) : []);
+
+  // Automatically save whenever nodes or edges change
+  // Give the lable and turn the array into strings (JSON)
+  $effect(() => {
+    localStorage.setItem("easy-draw-nodes", JSON.stringify(nodes));
+    localStorage.setItem("easy-draw-edges", JSON.stringify(edges));
+  });
 
   // Debugging
   // Checking the double binding
