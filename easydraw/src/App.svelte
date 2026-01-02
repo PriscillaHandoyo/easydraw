@@ -100,6 +100,17 @@
     nodes = [...nodes, newNode];
   }
 
+  function clearCanvas() {
+    if (
+      confirm(
+        "Are you sure you want to clear the whole canvas? This cannot be undone."
+      )
+    ) {
+      nodes = [];
+      edges = [];
+    }
+  }
+
   // Load the data from LocalStorage when the app starts
   // localStorage -> Web API
   const savedNodes = localStorage.getItem("easy-draw-nodes");
@@ -123,62 +134,96 @@
 </script>
 
 <div class="dnd-container">
-  <aside class="sidebar">
-    <div class="description">Drag these onto the canvas:</div>
-    <div
-      class="dnd-node table"
-      draggable="true"
-      ondragstart={(e) => onDragStart(e, "table")}
-    >
-      Table (Rectangle)
+  <nav class="navbar">
+    <div class="logo">EasyDraw</div>
+    <div class="actions">
+      <button class="clear-btn" onclick={clearCanvas}> Clear Canvas </button>
     </div>
+  </nav>
 
-    <div
-      class="dnd-node attribute"
-      draggable="true"
-      ondragstart={(e) => onDragStart(e, "attribute")}
-    >
-      Attribute (Oval)
+  <main class="app-body">
+    <aside class="sidebar">
+      <div class="description">Drag these onto the canvas:</div>
+      <div
+        class="dnd-node table"
+        draggable="true"
+        ondragstart={(e) => onDragStart(e, "table")}
+      >
+        Table (Rectangle)
+      </div>
+
+      <div
+        class="dnd-node attribute"
+        draggable="true"
+        ondragstart={(e) => onDragStart(e, "attribute")}
+      >
+        Attribute (Oval)
+      </div>
+
+      <div
+        class="dnd-node attribute"
+        draggable="true"
+        ondragstart={(e) => onDragStart(e, "relationship")}
+      >
+        Relationship (Diamond)
+      </div>
+    </aside>
+
+    <div class="flow-wrapper" style="width: 100vw; height: 100vh;">
+      <SvelteFlow
+        fitView
+        {nodes}
+        {edges}
+        {nodeTypes}
+        onconnect={onConnect}
+        ondrop={onDrop}
+        ondragover={(e) => e.preventDefault()}
+      >
+        <Background />
+        <Controls />
+        <MiniMap />
+      </SvelteFlow>
     </div>
-
-    <div
-      class="dnd-node attribute"
-      draggable="true"
-      ondragstart={(e) => onDragStart(e, "relationship")}
-    >
-      Relationship (Diamond)
-    </div>
-  </aside>
-
-  <div class="flow-wrapper" style="width: 100vw; height: 100vh;">
-    <SvelteFlow
-      fitView
-      {nodes}
-      {edges}
-      {nodeTypes}
-      onconnect={onConnect}
-      ondrop={onDrop}
-      ondragover={(e) => e.preventDefault()}
-    >
-      <Background />
-      <Controls />
-      <MiniMap />
-    </SvelteFlow>
-  </div>
+  </main>
 </div>
 
 <style>
-  .dnd-container {
+  .navbar {
+    height: 50px;
+    background: #333;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .clear-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .clear-btn:hover {
+    background: #cc0000;
+  }
+
+  .app-body {
     display: flex;
     flex-direction: row;
+    height: calc(100ch - 50px);
     width: 100vw;
-    height: 100vh;
   }
 
   .sidebar {
     width: 200px;
+    height: 100%;
     border-right: 1px solid #eee;
-    padding: 15px 10px;
+    padding: 10px;
     background: #fcfcfc;
     font-family: sans-serif;
   }
