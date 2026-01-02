@@ -9,6 +9,7 @@
   import "@xyflow/svelte/dist/style.css";
   import TableNode from "./lib/components/TableNode.svelte";
   import AttributeNode from "./lib/components/AttributeNode.svelte";
+  import RelationshipNode from "./lib/components/RelationshipNode.svelte";
 
   // Const -> DONT CHANGE
   // Define the types of nodes available in the flow
@@ -16,6 +17,7 @@
   const nodeTypes = {
     table: TableNode,
     attribute: AttributeNode,
+    relationship: RelationshipNode,
   };
 
   // State -> Changeable
@@ -120,6 +122,14 @@
       ondragstart={(e) => onDragStart(e, "attribute")}
     >
       Attribute (Oval)
+    </div>
+
+    <div
+      class="dnd-node attribute"
+      draggable="true"
+      ondragstart={(e) => onDragStart(e, "relationship")}
+    >
+      Relationship (Diamond)
     </div>
   </aside>
 
